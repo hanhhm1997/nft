@@ -2,21 +2,33 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { ethers } from "ethers";
 import { checkEndAddNetWork } from "../../hooks/common";
+import { urlPinata } from "../../constants";
+import { useLocation } from "react-router";
 
 export const Header = () => {
   const [address, setAddress] = useState(null);
   const [balance, setBalance] = useState<number | string>(0);
-
+  const { pathname } = useLocation();
+  const menu = [
+    {
+      label: "Mint",
+      link: "/mint",
+    },
+    {
+      label: "Profile",
+      link: "/profile",
+    },
+  ];
   const shortenHex = (hex: string) => {
     return `${hex.slice(0, 4)}...${hex.slice(-4)}`;
   };
+  console.log("pathname", pathname);
   useEffect(() => {
     const fetch = async () => {
       if (window.ethereum) {
         try {
           const provider = new ethers.BrowserProvider(window.ethereum);
           const network = await provider.getNetwork();
-          console.log("network", network);
           if (Number(network?.chainId) === 1001) {
             const data = await window.ethereum.send("eth_requestAccounts");
             const balance = await provider.getBalance(data?.result?.[0]);
@@ -60,15 +72,24 @@ export const Header = () => {
   return (
     <div className="menu-header">
       <div className="menu-header-logo">
-        <img src="/images/logo.svg" alt="logo" />
+        <img
+          src={`${urlPinata}/QmWKB5sZ1LYNAUSKMKDgffPUaSzh2qDP2fgYpVxkrMJQ4f`}
+          alt="logo"
+        />
       </div>
       <div className="menu-header-link">
-        <li>
-          <a href="/mint">Mint</a>
-        </li>
-        <li>
-          <a href="/profile">Profile</a>
-        </li>
+        {menu?.map((i) => {
+          return (
+            <li>
+              <a
+                href={i.link}
+                className={pathname === i.link ? "active-link" : ""}
+              >
+                {i.label}
+              </a>
+            </li>
+          );
+        })}
       </div>
       <div className="menu-header-info">
         {address && (

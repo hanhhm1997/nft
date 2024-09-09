@@ -5,22 +5,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { MintPage } from "./pages/mint";
 import Profile from "./pages/profile";
 import { Header } from "./component/header";
+import { Layout } from "./component/layout";
 
 function App() {
   return (
     <>
-      <Header />
       <BrowserRouter basename="/">
         <Routes>
-          <Route path="/mint" element={<MintPage />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route element={<Layout />}>
+            <Route path="/mint" element={<MintPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/*" element={<MintPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        className="toastClassName"
-      />
     </>
   );
 }
