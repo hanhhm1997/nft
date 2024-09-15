@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
-import { abiNft } from "./abi/abi";
-import { addressNft } from "../constants";
+import { abiNft, marketplaceNft } from "./abi/abi";
+import { addressMaketplace, addressNft } from "../constants";
+import axios from "axios";
 
 export const getProvider = async () => {
   const profile = new ethers.BrowserProvider(window.ethereum);
@@ -8,6 +9,13 @@ export const getProvider = async () => {
 };
 export const createNewContract = (signerOrProvider: any) => {
   return new ethers.Contract(addressNft, abiNft, signerOrProvider);
+};
+export const createNewContractMarketplace = (signerOrProvider: any) => {
+  return new ethers.Contract(
+    addressMaketplace,
+    marketplaceNft,
+    signerOrProvider
+  );
 };
 
 export const createContract = async () => {
@@ -51,4 +59,23 @@ export const checkEndAddNetWork = async () => {
       } catch (addError) {}
     }
   }
+};
+
+export const uploadFilePinata = async (name: string, value: string) => {
+  const formData = new FormData();
+  formData.append("file", value);
+  const response = await axios.post(
+    "https://api.pinata.cloud/pinning/pinFileToIPFS",
+    formData,
+    {
+      maxBodyLength: Infinity,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        pinata_api_key: "f25b2e69826b1a9a1422",
+        pinata_secret_api_key:
+          "f8fee89c0250e0c40abb97bc704de4ff58f3631620f201c7a0f8f7cafd1ef385",
+      },
+    }
+  );
+  return response?.data?.IpfsHash;
 };

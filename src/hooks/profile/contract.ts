@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContract } from "../common";
+import { urlPinata } from "../../constants";
 
 export const getListToken = async (address: string) => {
   const contract = await createContract();
@@ -7,27 +8,30 @@ export const getListToken = async (address: string) => {
   return result;
 };
 
-export const getCid = async (tokenId: number) => {
+export const getTokenUri = async (tokenId: number) => {
   const contract = await createContract();
-  const result = await contract.cid(tokenId);
+  const result = await contract.tokenURI(tokenId);
   return result;
 };
 
-export const getListNft = async (tokenIds: number[]) => {
+export const getBaseUrl = async () => {
+  const contract = await createContract();
+  const result = await contract.baseURI();
+  return result;
+};
+
+export const getListNft = async (tokenIds: number[], url: string) => {
   const contract = await createContract();
   const listNftPromises = tokenIds?.map(async (token) => {
     try {
-      const cid = await contract.getCid(token);
-      if (cid) {
-        const responseJson = await axios.get(
-          `https://lavender-charming-chickadee-619.mypinata.cloud/ipfs/${cid}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        return responseJson?.data;
+      const tokeUri = await contract.tokenURI(token);
+      if (tokeUri) {
+        const responseJson = await axios.get(`${urlPinata}/${tokeUri}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        return { ...responseJson?.data, tokenId: token };
       }
     } catch (error) {
       console.log("error", error);

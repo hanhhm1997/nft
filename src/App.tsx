@@ -6,6 +6,7 @@ import { MintPage } from "./pages/mint";
 import Profile from "./pages/profile";
 import { Header } from "./component/header";
 import { Layout } from "./component/layout";
+import { Auction } from "./pages/auction";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/mint" element={<MintPage />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/auction" element={<Auction />} />
             <Route path="/*" element={<MintPage />} />
           </Route>
         </Routes>

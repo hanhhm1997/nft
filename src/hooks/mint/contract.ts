@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createNewContract, getProvider } from "../common";
 
 export const minNft = async (cid: string) => {

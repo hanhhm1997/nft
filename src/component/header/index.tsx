@@ -18,11 +18,14 @@ export const Header = () => {
       label: "Profile",
       link: "/profile",
     },
+    {
+      label: "Auction",
+      link: "/auction",
+    },
   ];
   const shortenHex = (hex: string) => {
     return `${hex.slice(0, 4)}...${hex.slice(-4)}`;
   };
-  console.log("pathname", pathname);
   useEffect(() => {
     const fetch = async () => {
       if (window.ethereum) {

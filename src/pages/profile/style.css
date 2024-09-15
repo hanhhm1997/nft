@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   max-width: 1000px;
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 .one-nft {
   width: calc(33.33% - 20px);
@@ -30,4 +31,28 @@ h4 {
 .title {
   text-align: center;
   margin-bottom: 50px;
+}
+audio {
+  padding: 0 20px;
+  width: calc(100% - 40px);
+}
+.input-price {
+  width: calc(100% - 20px);
+  border: 1px solid #c0c0c0;
+  margin: 10px auto;
+  padding-left: 10px;
+}
+.input-price:hover,
+:focus,
+:focus-visible {
+  outline: none;
+}
+.form-mint {
+  display: grid;
+  align-items: center;
+}
+.button-submit {
+  height: 40px;
+  width: calc(100% - 20px);
+  margin: 5px auto;
 }
